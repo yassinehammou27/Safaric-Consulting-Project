@@ -1,0 +1,139 @@
+{% extends "auswertung/base.html"%}
+{% load crispy_forms_tags %}
+
+       <h1> Hier werden Auswertungsergebnisse angezeigt.
+       </h1>
+{%block content%}    
+<div class="row">
+	<div class="col-sm">
+		<div class="card card-body">
+			<h5>Artikelanzahl</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{anzahlArtikel}}</h1>
+		</div>
+       </div>
+       <div class="col-sm">
+		<div class="card card-body">
+			<h5>Durchschnitsspreis</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{durchschnittspreis}}</h1>
+		</div>
+       </div>
+       <div class="col-sm">
+		<div class="card card-body">
+			<h5>Anzahl Handzettel</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{anzahlHandzettel}}</h1>
+		</div>
+	</div>
+</div>
+
+       <div class="container">
+              <div class="row">
+                <div class="col-4">
+                     <div class="card card-body">
+                            <form method="get">
+                                   <div class= "form-group">
+                                          <label class = "" for= "branche">Branche</label>
+                                          <div class = "">
+                                                 <select name="branche" class = "select form-control" id="branche">
+                                                        <option value="" {%if brancheFilter == "" or brancheFilter == None %}selected = "" {%endif%}>---------</option>
+                                                        {% for branche in branchen %}
+                                                        <option value="{{ branche }}"{%if brancheFilter == branche.name %} selected = "" {%endif%}>{{ branche }}</option>
+                                                        {% endfor %}
+                                                 </select>
+                                          </div>
+                                   </div>
+                                   <div class = "form-group">
+                                          <label class = "" for="unternehmensgruppe">Unternehmensgruppe</label>
+                                          <div class ="">
+                                                 <select name="unternehmensgruppe" class = "select form-control" id="unternehmensgruppe">
+                                                        <option value="" {%if unternehmensgruppeFilter == "" or unternehmensgruppeFilter == None %}selected=""{%endif%}>---------</option>
+                                                        {% for u in unternehmensgruppen %}
+                                                        <option value="{{ u }}"{%if unternehmensgruppeFilter == u.name %}selected = "" {%endif%}>{{ u }}</option>
+                                                        {% endfor %}
+                                                 </select>
+                                          </div>
+                                   </div>
+                                   <div class = "form-group">
+                                          <label class = "" for="haendler">Händler</label>
+                                          <div class = "">
+                                                 <select name="haendler" class = "select form-control" id="haendler">
+                                                        <option value= "" {%if haendlerFilter == "" or haendlerFilter == None %}selected=""{%endif%}>---------</option>
+                                                        {% for haendler in haendler %}
+                                                        <option value="{{ haendler }}"{%if haendlerFilter == haendler.name %} selected=""{%endif%}>{{ haendler }}</option>
+                                                        {% endfor %}
+                                                 </select>
+                                          </div>
+                                    </div>
+                                   {{myFilter.form|crispy}}   
+                                   <button class="btn btn-primary" type="submit">Search</button>
+                                   <a href={% url "auswertung-excelexport"%} class="btn btn-primary btn-block">Export</a>
+                            </form>
+                            
+                     </div>
+                </div>
+              <div class="col-8">
+                     <!--
+                      <table class="table table-sm"> 
+                                   <thead>
+                                          <tr>
+                                            <th scope="col">Seite</th>
+                                            <th scope="col">Referenzartikel</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Kategorie</th>
+                                            <th scope="col">Preis</th>
+                                            <th scope="col">Seitenbereich</th>
+                                            <th scope="col">Auslobungnormalpreis</th>
+                                            <th scope="col">Coupon</th>
+                                            <th scope="col">Loyalty</th>
+                                            <th scope="col">Artikelart</th>
+                                            <th scope="col">Heroartikel</th>
+                                          </tr>
+                                   </thead>
+                                       
+
+                                   <tbody>
+                                   {% for artikel in artikel%}
+                                          <tr>
+                                           <td>{{artikel.seite}}</td>
+                                           <td>{{artikel.referenzartikel}}</td>
+                                           <td>{{artikel.name}}</td>
+                                           <td>{{artikel.kategorie}}</td>
+                                           <td>{{artikel.preis}}</td>
+                                           <td>{{artikel.seitenbereich}}</td>
+                                           <td>{{artikel.auslobungnormalpreis}}</td>
+                                           <td>{{artikel.coupon}}</td>
+                                           <td>{{artikel.loyalty}}</td>                             
+                                           <td>{{artikel.artikelart}}</td>
+                                           <td>{{artikel.heroartikel}}</td>
+                                          </tr>
+                                   {% endfor %}
+                                   </tbody>
+                            </table> -->
+                            <table class="table table-sm"> 
+                                   <thead>
+                                          <tr>
+                                            <th scope="col">Kategorie</th>
+                                            <th scope="col">Anzahl Artikel</th>
+                                            <th scope="col">Durchschnittliche Anzahl je Handzettel</th>
+                                          </tr>
+                                   </thead>
+                                       
+
+                                   <tbody>
+                                   {% for key, value in Kategorie.items %}
+                                          <tr>
+                                           <td>{{key}}</td>
+                                           <td>{{value.0}}</td>
+                                          <td>{{value.1}}</td>
+                                          </tr>
+                                   {% endfor %}
+                                   </tbody>
+                            </table>
+                    </div>
+              </div>
+       </div>
+</div>    
+       
+{%endblock content%}

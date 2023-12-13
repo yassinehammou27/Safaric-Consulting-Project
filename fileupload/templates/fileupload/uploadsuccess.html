@@ -1,0 +1,22 @@
+{% extends 'fileupload/uploadstart.html' %}
+{% block replace %}
+<center>
+<div class="jumbotron">
+  <a href={% url "uploadstart" %} class="btn btn-primary">Weitere Dateien hochladen</a> 
+  <p>
+  <h3 class="display-12">Hochgeladene Dateien:<br> {{ user_pr.fname }}</h1>
+ 
+  <hr class="my-4">
+  </p>
+  {% for uploadedfiles in uploadedfiles%}
+    <tr>
+      <td>{{ uploadedfiles.timestamp|date:"D d M Y" }} {{ uploadedfiles.timestamp|time:"H:i:s" }}</td>
+      
+      
+      <td> <a href="{{ uploadedfiles.name }}" target="_blank"> {{ uploadedfiles.name }}<br></a></td>
+    
+    </tr>
+  {% endfor %}
+</div>
+</center>
+{% endblock %}

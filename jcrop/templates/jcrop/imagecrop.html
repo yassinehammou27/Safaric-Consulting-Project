@@ -1,0 +1,83 @@
+{% extends "auswertung/auswertungsseiten.html"%}
+{% load crispy_forms_tags %}
+{%block content%}
+       
+       <h1> Bitte umrande hier alle Artikel auf der Seite.
+       </h1>
+            <br>
+            <br>
+            Bitte umranden Sie alle Artikel nacheinander. 
+            Umranden Sie die Artikel dabei bitte eher zu groß als zu klein, um eine spätere Auswertung zu gewährleisten.
+            Sie können gezeichnete Rahmen verschieben und modifizieren. 
+            Um einen Rahmen zur Modifizierung auszuwählen, müssen sie diesen anklicken.
+            Sie können über die "delete"-Taste ausgewählte Rahmen löschen.
+            Sobald Sie alle Artikel einmal ausgewertet haben, drücken Sie bitte auf Bestätigen.
+            <br>
+            <br>
+                <img src="{{pfad}}" id="target" alt="">
+                </br>
+         
+              <div>
+                <button class="submit btn btn-outline-info" name='bestätigen' value = 1>Bestätigen</button>
+              </div>
+          
+{%endblock content%}
+
+{%block script%}
+{{block.super}}
+<script src="https://unpkg.com/jcrop"></script>
+<script>
+    //resize the image
+    $( "img" ).each( function() {
+    var $img = $( this );
+    $img.width( $img.width() * .3 );
+    });
+    
+    //attach jcrop to the image that we want to annotate
+    const jcrop = Jcrop.attach('target', {
+        multi: true,
+    });
+
+    //um zu Beginn Rechtecke reinzuladen
+    // const rect = Jcrop.Rect.fromPoints([100,100],[300,300]);
+
+    // const crop = jcrop.newWidget(rect,{
+    //     aspectRatio: rect.aspect,
+    //     canRemove: false
+    //   });
+
+    // const crop2 = jcrop.newWidget(rect,{
+    //     aspectRatio: rect.aspect,
+    //     canRemove: false
+    //   });
+    //   const img = document.getElementById('img');
+    //   crop.el.appendChild(img);
+    //   crop2.el.appendChild(img);
+
+ 
+    const id = "{{id}}";
+    //create a json object of the coordinates 
+    $(".submit").click(function(){
+        var jsonObj = {"artikel":[]};
+        for (let item of jcrop.crops.keys()){
+            jsonObj["artikel"].push(item.pos);
+        }
+        //send the coordinates to the backend
+        $.ajax({
+            type: "POST",
+            url: "{% url 'annotation-annotation' id%}", 
+            data: {'daten': JSON.stringify(jsonObj)},
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            dataType: "json",
+            success: function(data){
+                if(data.success){
+                    window.location.href = "{% url 'auswertung-artikel'%}"
+                }
+                else{
+                    alert(data.message);
+                }
+            }
+        });
+    });
+</script>
+{%endblock script%}

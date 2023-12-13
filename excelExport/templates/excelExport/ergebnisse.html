@@ -1,0 +1,10 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+        <h1 class="text-center">Auswertungsergebnisse</h1>
+
+
+        <div class="btn-group-vertical" id="home-buttons">
+        <a href={% url "auswertung-ergebnisseSeite"%} class="btn btn-primary btn-block">Seitenebene</a>
+        <a href={% url "auswertung-ergebnisseArtikel"%} class="btn btn-primary btn-block">Artikelebene</a>
+        </div>
+{%endblock content%}

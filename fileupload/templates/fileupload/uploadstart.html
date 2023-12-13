@@ -1,0 +1,38 @@
+{% extends "auswertung/base.html"%}
+
+ 
+{%block content%}
+
+
+                        {% block replace %}
+       <div class="uploadHelper">
+                <p class="lead">Datei-Upload:</p>
+                <hr class="my-4">
+                <form method="POST" enctype="multipart/form-data" multiple>
+                <p>
+                    Format der Handzettel: Händler_Kalenderwoche_Jahr<br>
+                    Format der Seiten: Händler_Kalenderwoche_Jahr_Seite
+                </p>
+                
+
+                   
+                    {% csrf_token %}
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                
+                    <input type="submit" class="btn btn-primary" name="register"> 
+            </form>
+            <a href={% url "crawlerstart" %} class="btn btn-primary btn-block">Zum Crawler</a>
+        </div>
+<div class="overlay"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>             
+<script type="text/javascript">
+$(document).submit(function () {
+    $(".overlay").show();
+});
+</script>
+
+        {% endblock %}
+{% endblock %}
