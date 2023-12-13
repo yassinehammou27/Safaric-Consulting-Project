@@ -1,0 +1,98 @@
+{% extends "auswertung/auswertungsseiten.html"%}
+{% load crispy_forms_tags %}
+
+{%block heading%}
+    <h1>Artikelauswertung</h1>
+    <h2>{{seite}}</h2>
+    <h2>Artikelnummer: {{artikel.artikelnummer}} </h2>
+{% endblock %}
+
+{%block seitenVorschau%}
+<img src="{{seite.bild.url}}" class="img-fluid sticky">
+{%endblock seitenVorschau%}
+
+{%block artikelVorschau%}
+<div class="col-sm">
+        <img src="{{pfad}}" class="img-fluid sticky">
+</div>
+{%endblock artikelVorschau%}
+
+{% block auswertung %}
+    <button class="btn btn-primary" name='überspringen'value = 1 type="submit">Artikelauswertung überspringen</button>
+
+    <div class="form-group">
+        <label for="refArtikel">Referenzartikel</label>
+        <div class="">
+            <input class="textinput textInput form-control" type="text"  id="refArtikel" name="refArtikel">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="aktion">Aktionstyp</label>
+        <div class="">
+            <input class="textinput textInput form-control" type="text"  id="aktion" name="aktion">
+        </div>
+    </div>
+    {{ form|crispy }}
+    {{ form2|crispy }}
+    <div class="overlay"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>             
+    <script type="text/javascript">
+    $(document).submit(function () {
+        $(".overlay").show();
+    });
+    </script>
+{% endblock auswertung %}
+
+
+{% block script %}
+<!-- block.super makes the base.html scripts load. If not used, the script below will overwrite the base.html scripts. -->
+{{block.super}}
+    <script>
+          $( function() {
+              $( "#refArtikel" ).autocomplete({
+                
+                source: function (request, response) {
+                   $.ajax({
+                       url: "{% url 'auswertung-artikel'  %}",
+                       data: {term : request.term },
+                       dataType: "json",
+                       success: response,
+                       error: function () {
+                           response([]);
+                       }
+                   });
+                  },
+                minLength: 0,
+                autoFocus: true
+              });    
+          });
+          
+          
+          $( function() {
+              $( "#aktion" ).autocomplete({
+                
+                source: function (request, response) {
+                   $.ajax({
+                       url: "{% url 'auswertung-artikel'%}",
+                       data: {term3 : request.term },
+                       dataType: "json",
+                       success: response,
+                       error: function () {
+                           response([]);
+                       }
+                   });
+                  },
+                minLength: 0,
+                autoFocus: true
+              });    
+          });
+              //source: "{% url 'auswertung-artikel'%}",
+          
+              //$( "#kategorie" ).autocomplete({
+              //  source: "{% url 'auswertung-artikel'%}",
+              //  minLength: 0
+              //});
+            
+    </script>
+{%endblock script%}

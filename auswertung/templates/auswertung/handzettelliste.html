@@ -1,0 +1,31 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+{% if request.user.is_staff  %}
+        <h1 class="text-center">Liste aller Handzettel</h1>
+
+        <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Haendler</th>
+                    <th scope="col">KW</th>
+                    <th scope="col">Jahr</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                {% for handzettel in handzettel%}
+                  <tr>
+                    <td>{{handzettel.id}}</td>
+                    <td>{{handzettel.haendler}}</td>
+                    <td>{{handzettel.kw}}</td>
+                    <td>{{handzettel.jahr}}</td>
+                    <td> <a href="{{ handzettel.handzetteldatei.url }}" target="_blank" class="btn btn-primary">Handzettel ansehen</a></td>
+                  
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table> 
+              {% endif %}
+{%endblock content%}
+ 

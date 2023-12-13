@@ -1,0 +1,10 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+<h1> Die ausgewählten gecrawlten Dokumente wurden in Handzettel umgewandelt.</h1>
+<p> Denken Sie daran, dass Sie nun in der Auswertung die Kalenderwoche und das Jahr eventuell manuell eintragen werden müssen.</p>
+
+
+<a href={% url "auswertung-home" %} class="btn btn-primary">Home</a> 
+<a href={% url "auswertung-ausw_handzettelliste" %} class="btn btn-primary">Zur Auswertung</a> 
+        
+{% endblock %}

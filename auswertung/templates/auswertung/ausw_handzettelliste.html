@@ -1,0 +1,85 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+<h1 class="text-center">Liste aller noch nicht begonnenen Handzettel</h1>
+<p>Wählen Sie einen Handzettel zur Auswertung aus, um mit der Auswertung zu starten</p>
+
+<div class="list-group">
+    <!-- creation of the table, columns can be added here -->
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Haendler</th>
+        <th scope="col">KW</th>
+        <th scope="col">Jahr</th>
+   
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+<!-- this fills the columns with the correct information, looping through all handzettel that haven't been evaluated yet. -->
+    {% for handzettel in handzettel %}     
+        {% if handzettel.status == 0  %}
+            <td>{{handzettel.id}}</td></a>
+            <td>{{handzettel.haendler}}</td>
+            <td>{{handzettel.kw}}</td>
+            <td>{{handzettel.jahr}}</td>
+    
+    <!-- button that refers to the proper handzettel so it can be evaluated -->
+            <td>
+                <a href={% url 'auswertung-handzettel' handzettel.id %} class="btn btn-primary">Zur Auswertung
+                </a>
+            </td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+    </tbody>
+  </table> 
+</div>
+<h1 class="text-center">Liste aller noch nicht abgeschlossenen Handzettel</h1>
+<p>Wählen Sie einen Handzettel zur Auswertung aus, um die Auswertung fortzusetzen</p>
+
+<div class="list-group">
+    <!-- creation of the table, columns can be added here -->
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Haendler</th>
+        <th scope="col">KW</th>
+        <th scope="col">Jahr</th>
+        <th scope="col">Seitenfortschritt</th>
+        <th scope="col">fertige Artikel</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+<!-- this fills the columns with the correct information, looping through all handzettel that haven't been done yet. -->
+    {% for handzettel in handzettel %} 
+
+      {% if handzettel.fertigeArtikel < handzettel.artikelAnzahl or handzettel.status == 2 %} 
+            <td>{{handzettel.id}}</td></a>
+            <td>{{handzettel.haendler}}</td>
+            <td>{{handzettel.kw}}</td>
+            <td>{{handzettel.jahr}}</td>
+            <td>{{handzettel.letzteSeite}}/{{handzettel.seitenanzahl}}</td>
+            <td>{{handzettel.fertigeArtikel}}/{{handzettel.artikelAnzahl}}</td>
+            
+    
+    <!-- button that refers to the proper handzettel so it can be evaluated -->
+            <td>
+                               
+                <a href={% url 'auswertung-seite' handzettel.id handzettel.letzteSeite %} class="btn btn-primary">Auswertung fortsetzen 
+                </a>
+                <a href={% url 'auswertung-seite' handzettel.id 1 %} class="btn btn-primary">Auswertung ab erster Seite
+                </a>
+            </td>
+        </tr>
+      {% endif %} 
+    {% endfor %}
+
+    </tbody>
+  </table> 
+</div>
+{%endblock content%}
+ 

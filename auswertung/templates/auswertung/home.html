@@ -1,0 +1,33 @@
+{% extends "auswertung/base.html"%}
+{% load tagHelper %}
+
+{%block content%}
+
+
+{% if request.user|has_group:"Kunde" %} 
+        <h1 class="text-center">Willkommen {{user.first_name}}</h1> 
+
+        <div class="btn-group-vertical" id="home-buttons">
+
+        <a href={% url "auswertung-ergebnisse"%} class="btn btn-primary btn-block">Auswertungsergebnisse</a>
+{% elif request.user.is_staff %}
+        <h1 class="text-center">Willkommen in der Handzettelauswertung {{user.first_name}}</h1>
+
+        <div class="btn-group-vertical" id="home-buttons">
+
+        <a href={% url "uploadstart"%} class="btn btn-primary btn-block">Importieren</a>
+        <a href={% url "auswertung-ausw_handzettelliste"%} class="btn btn-primary btn-block">Auswerten</a>
+        <a href={% url "auswertung-ergebnisse"%} class="btn btn-primary btn-block">Auswertungsergebnisse</a>
+{% else %}
+        <h1 class="text-center">Willkommen in der Handzettelauswertung {{user.first_name}}</h1>
+
+        <div class="btn-group-vertical" id="home-buttons">
+
+        
+        <p>Leider ist bei der Erstellung Ihres Accounts etwas schiefgelaufen.</p>
+        <p>Bitte kontaktieren Sie Ihren Ansprechpartner bei Safaric und bitten Sie diesen, Ihnen die richtige Nutzergruppe und Berechtigungen        zuzuteilen.</p>
+{% endif %}
+        <a href={% url "change_password"%} class="btn btn-primary btn-block">Passwort ändern</a>
+        </div>
+{%endblock content%}
+ 

@@ -1,0 +1,35 @@
+{% extends "auswertung/base.html"%}
+{% load crispy_forms_tags %}
+
+
+{%block content%}
+{%block heading%}
+<h1> Die ausgewählten gecrawlten Dokumente wurden in Handzettel umgewandelt.</h1>
+<p> Die wichtigen Daten der Handzettel konnten aber nicht automatisch erkannt werden. Bitte tragen Sie diese nun nach.</p>
+<h2>Handzettel mit der ID: {{hz.id}}</h2>
+{%endblock heading%}
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        {%block seitenVorschau%}
+<div class="sticky">
+<img src="{{seite.bild.url}}" class="img-fluid" width="400px">
+</div>
+{%endblock seitenVorschau%}
+      </div>
+      <div class="col-sm">
+        <div class="content-section"><form method="POST">
+    {% csrf_token %}
+    {%block auswertung %}
+    {{ form|crispy }}
+ {%endblock%}
+    <button class="btn btn-primary" name="next">Weiter</button>
+    <button class="btn btn-primary" name="delete">Handzettel verwerfen</button>
+</form>
+        
+{% endblock %}
+        </div>
+      </div>
+    </div>
+</div>
+

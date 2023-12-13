@@ -1,0 +1,19 @@
+{% extends "auswertung/auswertungsseiten.html"%}
+{% load crispy_forms_tags %}
+
+{%block heading%}
+<h1>Seitenauswertung</h1>
+<h2>{{seite}}</h2>
+{% endblock %}
+
+{%block seitenVorschau%}
+<div class="sticky">
+<img src="{{seite.bild.url}}" class="img-fluid">
+</div>
+{%endblock seitenVorschau%}
+{% block auswertung %}
+ <button class="btn btn-primary" name='überspringen'value = 1 type="submit">Speichern und Artikelauswertung überspringen</button>
+
+ {{ form|crispy }}
+{%endblock auswertung%}
+

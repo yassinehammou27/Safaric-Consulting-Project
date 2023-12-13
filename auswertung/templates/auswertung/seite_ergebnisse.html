@@ -1,0 +1,120 @@
+{% extends "auswertung/base.html"%}
+{% load crispy_forms_tags %}
+
+       <h1> Hier werden Auswertungsergebnisse angezeigt.
+       </h1>
+{%block content%}    
+<div class="row">
+	<div class="col-sm">
+		<div class="card card-body">
+			<h5>Anzahl der Seiten</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{seitenanzahl}}</h1>
+		</div>
+       </div>
+       <div class="col-sm">
+		<div class="card card-body">
+			<h5>Durchschnittliche Seitenanzahl</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{durchschnittlicheSeitenanzahl}}</h1>
+        </div>
+       </div>
+       <div class="col-sm">
+        <div class="card card-body">
+			<h5>Durchschnittliche Artikelanzahl pro Seite</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{anzahlArtikelproSeite}}</h1>
+		</div>
+       </div>
+       <div class="col-sm">
+		<div class="card card-body">
+			<h5>Anzahl Hanzettel</h5>
+			<hr>
+			<h3 style="text-align: center;padding: 10px">{{anzahlHandzettel}}</h1>
+		</div>
+       </div>
+</div>
+
+       <div class="container">
+              <div class="row">
+                <div class="col-4">
+                     <div class="card card-body">
+                            <form method="get">
+                                <div class= "form-group">
+                                    <label class = "" for= "branche">Branche</label>
+                                    <div class = "">
+                                           <select name="branche" class = "select form-control" id="branche">
+                                                  <option value="" {%if brancheFilter == "" or brancheFilter == None %}selected = "" {%endif%}>---------</option>
+                                                  {% for branche in branchen %}
+                                                  <option value="{{ branche }}"{%if brancheFilter == branche.name %} selected = "" {%endif%}>{{ branche }}</option>
+                                                  {% endfor %}
+                                           </select>
+                                    </div>
+                             </div>
+                             <div class = "form-group">
+                                    <label class = "" for="unternehmensgruppe">Unternehmensgruppe</label>
+                                    <div class ="">
+                                           <select name="unternehmensgruppe" class = "select form-control" id="unternehmensgruppe">
+                                                  <option value="" {%if unternehmensgruppeFilter == "" or unternehmensgruppeFilter == None %}selected=""{%endif%}>---------</option>
+                                                  {% for u in unternehmensgruppen %}
+                                                  <option value="{{ u }}"{%if unternehmensgruppeFilter == u.name %}selected = "" {%endif%}>{{ u }}</option>
+                                                  {% endfor %}
+                                           </select>
+                                    </div>
+                             </div>
+                             <div class = "form-group">
+                                    <label class = "" for="haendler">Händler</label>
+                                    <div class = "">
+                                           <select name="haendler" class = "select form-control" id="haendler">
+                                                  <option value= "" {%if haendlerFilter == "" or haendlerFilter == None %}selected=""{%endif%}>---------</option>
+                                                  {% for haendler in haendler %}
+                                                  <option value="{{ haendler }}"{%if haendlerFilter == haendler.name %} selected=""{%endif%}>{{ haendler }}</option>
+                                                  {% endfor %}
+                                           </select>
+                                    </div>
+                              </div>
+
+                                {{myFilter.form|crispy}}   
+                                <button class="btn btn-primary" type="submit">Search</button>
+                                <a href={% url 'auswertung-excelexportSeite'%} class="btn btn-primary btn-block">Export</a>
+                            </form>
+                            
+                     </div>
+                </div>
+              <div class="col-8">
+                     <table class="table table-sm"> 
+                            <thead>
+                                   <tr>
+                                     <th scope="col">Händler</th>
+                                     <th scope="col">KW</th>
+                                     <th scope="col">Jahr</th>
+                                     <th scope="col">Seitenzahl</th>
+                                     <th scope="col">Seitentyp</th>
+                                     <th scope="col">Hauptkategorie</th>
+                                     <th scope="col">Artikelanzahl</th>
+                                     <th scope="col">Anzahl Artikel nicht in HK</th>
+                                   </tr>
+                            </thead>
+                                
+
+                            <tbody>
+                            {% for seite in seiten%}
+                                   <tr>
+                                    <td>{{seite.handzettel.haendler}}</td>
+                                    <td>{{seite.handzettel.kw}}</td>
+                                    <td>{{seite.handzettel.jahr}}</td>
+                                    <td>{{seite.seitenzahl}}</td>
+                                    <td>{{seite.seitentyp}}</td>
+                                    <td>{{seite.hauptkategorie}}</td>
+                                    <td>{{seite.artikelanzahl}}</td>
+                                    <td>{{seite.artikelanzahlnichthk}}</td>
+                                   </tr>
+                            {% endfor %}
+                            </tbody>
+                     </table>
+                    </div>
+              </div>
+       </div>
+</div>    
+       
+{%endblock content%}

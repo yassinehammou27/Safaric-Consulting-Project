@@ -1,0 +1,67 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+
+    <h1> Der Crawler hat die folgenden Dokumente gefunden. Bitte wähle davon die benötigten Handzettel aus:</h1>
+    {% block abbrechen %}
+    <div>
+       <form method="POST">
+        {% csrf_token %}
+        <button class="btn btn-primary" name="cancel">Abbrechen</a> 
+      </form>
+      
+    </div>
+    {%endblock%}
+    <div class="list-group">
+        <!-- creation of the table, columns can be added here -->
+        <form method="POST">
+           <!-- Very Important csrf Token -->
+           {% csrf_token %}
+           {%if uploadedfiles%}
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">URL</th>
+            <th scope="col">Zeitpunkt</th>
+       
+            <th scope="col">Handzettel?</th>
+          </tr>
+        </thead>
+        <tbody>
+    <!-- this fills the columns with the correct information, looping through all uploadedfiles that need to be classified as handouts. -->
+    {% for uploadedfile in uploadedfiles %}     
+                <td><a href="{{urlHelper}}{{uploadedfile.uniqueDir}}/{{uploadedfile}}" target="_blank"> {{ uploadedfile.name }}<br></a></td>
+                <td>{{uploadedfile.uniqueDir}}</td>
+                <td>{{uploadedfile.timestamp}}</td>
+        
+        <!-- button that refers to the proper handzettel so it can be evaluated -->
+                <td>
+                  <input type="checkbox" name="handouts" value="{{uploadedfile.name}}">
+                  <label for=""></label>
+                    
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+      </table> 
+      <input type="submit" class="btn btn-primary" name="classify" value="Handzettel erstellen" ">
+      <div class="overlay"></div>
+      <button class="btn btn-primary" name="done">Fertig</a> 
+        {%else%}
+        <p>Es wurden alle gecrawlten Dokumente klassifiziert. Bitte fahren Sie fort zum nächsten Schritt.</p>
+        <button class="btn btn-primary" name="done">Fertig</a>
+          {%endif%} 
+    </form>
+    </div>
+
+    <div class="overlay"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>             
+    <script type="text/javascript">
+    $(document).submit(function () {
+        $(".overlay").show();
+    });
+    </script>
+    
+{% endblock %}
+

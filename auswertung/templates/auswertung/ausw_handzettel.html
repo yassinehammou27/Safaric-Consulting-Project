@@ -1,0 +1,20 @@
+{% extends "auswertung/auswertungsseiten.html"%}
+{% load crispy_forms_tags %}
+
+{%block heading%}
+<h1>Handzettelauswertung</h1>
+<h2>Handzettel mit der ID: {{handzettel.id}}</h2>
+{% endblock %}
+
+
+{%block seitenVorschau%}
+<div class="sticky">
+<img src="{{seite.bild.url}}" class="img-fluid">
+</div>
+{%endblock seitenVorschau%}
+{% block auswertung %}
+ {{ form|crispy }}
+{%endblock%}
+
+
+

@@ -1,0 +1,51 @@
+{% extends "auswertung/base.html"%}
+{%block content%}
+
+<div class="crawlText">
+        <h1> Crawler:</h1>
+        <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                        <p> 
+                        Sobald Sie den Crawl-Button drücken, wird der Crawler gestartet. Dieser wird die folgenden Unternehmensseiten nach Handzetteln durchsuchen: 
+                        </p>
+                        {%for url in allURLs%}
+                        <li>{{url.haendler}} 
+                                <br>{{url.url}}</li>
+                        {%endfor%}
+                </div>
+                  
+                  <div class="col-sm">
+                      <p>   Bedenken Sie:
+                        <li> Der Crawler wird alle gefundenen .pdf Dateien auflisten </li>
+                        <li> Sie müssen also im Anschluss alle Dateien die tatsächlich Handzettel sind auswählen und Dokumente somit aussortieren, die keine Handzettel sind. </li>
+                        <li> Der Crawling Prozess wird einige Zeit in Anspruch nehmen. Wenn Sie Ihn abbrechen, werden alle gecrawlten Dokumente gelöscht.</li>
+                </p>  
+                          </div>
+                          </div>
+        </div>
+</div>
+                        
+    <div class="crawlButton">
+
+        <form method="POST">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" name="register" type="crawler">
+                
+        </form>
+            
+    </div>   
+
+                
+                 
+        </div>
+        <div class="overlay"></div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>             
+        <script type="text/javascript">
+        $(document).submit(function () {
+            $(".overlay").show();
+        });
+        </script>      
+
+{% endblock %}

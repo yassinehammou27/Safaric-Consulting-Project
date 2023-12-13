@@ -1,0 +1,37 @@
+{% extends "auswertung/base.html"%}
+{% load crispy_forms_tags %}
+
+
+{%block content%}
+{%block heading%}
+
+{%endblock heading%}
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        {%block seitenVorschau%}{%endblock seitenVorschau%}
+      </div>
+      {%block artikelVorschau%}{%endblock artikelVorschau%}
+      <div class="col-sm">
+        <div class="content-section">
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                 {%block auswertung%} 
+                  {%endblock%}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-info" type="submit">Speichern</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block script %}
+<!-- block.super makes the base.html scripts load. If not used, the script below will overwrite the base.html scripts. -->
+{{block.super}}
+
+{%endblock script%}
