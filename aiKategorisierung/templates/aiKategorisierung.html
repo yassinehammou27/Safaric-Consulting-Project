@@ -1,0 +1,27 @@
+{% extends "auswertung/auswertungsseiten.html"%}
+{% load crispy_forms_tags %}
+{%block content%}
+       
+       <h1> Die Umrandung der Artikel wurde von der KI durchgeführt.
+       </h1>
+       <p>Falls Sie mit der Kategorisierung der KI einverstanden sind, drücken Sie den Button "Zur Artikelauswertung".</p>     
+       <p>Falls Sie mit der Kategorisierung der KI unzufrieden sind, drücken Sie den Button "Manuell Kategorisieren".</p>
+            
+
+       <form method="POST">
+              {% csrf_token %}
+                <div>
+                    <button class="btn btn-outline-info" name='zurAuswertung' value = 1 type="submit">Zur Artikelauswertung</button>
+                    <button class="btn btn-outline-info" name='zurAnnotation' value = 1 type="submit">Manuell Kategorisieren</button>
+              </div>
+              <div class="container">
+                    <div class="row">
+                         <div class="col-sm">
+                         <img src="{{pfad}}" class="img-fluid" alt="">
+                         </br>
+                        </div>
+                    </div>
+                </div>
+              
+          </form>
+{%endblock content%}

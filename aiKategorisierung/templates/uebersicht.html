@@ -1,0 +1,12 @@
+{% extends "auswertung/base.html"%}
+{% load tagHelper %}
+
+{%block content%}
+        <h1 class="text-center">Kategorisierung</h1>
+        <div class="btn-group-vertical" id="home-buttons">
+        <a id="myLink" href={% url "ai-kategorisierung" id %} class="btn btn-primary btn-block">KI Kategorisierung</a>
+        <a href={% url "annotation-annotation" id%} class="btn btn-primary btn-block">Manuell Kategorisieren</a>
+        </div>
+{%endblock content%}
+
+ 
